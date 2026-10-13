@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Paytm — Figma vs Live Design Gap Report</title>
+<title>Paytm PG — UAT Issue Report</title>
 <link rel="stylesheet" href="styles.css">
 <script>(function(){var p=new URLSearchParams(location.search).get('theme');var s=null;try{s=localStorage.getItem('pgTheme')}catch(e){}var t=p||s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 </head>
 <body>
 <header class="top">
   <div class="wrap top-in">
-    <div><h1>Design Gap Report</h1><p class="sub">Figma vs Live · Paytm · Light &amp; Dark mode UAT</p></div>
+    <div><h1>UAT Issue Report</h1><p class="sub">Paytm PG · Android &amp; iOS · Light &amp; Dark mode UAT</p></div>
     <div class="top-actions">
       <a id="sheetLink" class="btn" target="_blank" rel="noopener">Comment / edit in sheet ↗</a>
       <button id="themeBtn" class="btn" aria-label="Toggle colour theme">🌓 Theme</button>
@@ -21,18 +21,14 @@
   <div id="errorBox" class="banner error" hidden></div>
   <section id="summary" class="summary" aria-label="Summary"></section>
   <section class="controls" aria-label="Filters">
-    <input id="q" type="search" placeholder="Search ID, component, notes…">
-    <select id="fTheme"><option value="">All themes</option><option>Light</option><option>Dark</option></select>
-    <select id="fSev"><option value="">All severities</option><option>High</option><option>Medium</option><option>Low</option></select>
-    <select id="fStatus"><option value="">All statuses</option><option>Open</option><option>In Progress</option><option>Fixed</option><option>Won't Fix</option></select>
-    <select id="fScreen"><option value="">All screens</option></select>
-    <select id="sort">
-      <option value="sev">Sort: Severity</option><option value="id">Sort: ID</option>
-      <option value="status">Sort: Status</option><option value="screen">Sort: Screen</option><option value="owner">Sort: Owner</option>
-    </select>
+    <input id="q" type="search" placeholder="Search issue, screen, owner, notes…">
+    <select id="fJourney"></select><select id="fScreen"></select><select id="fPlatform"></select>
+    <select id="fSev"></select><select id="fTheme"></select><select id="fStatus"></select>
+    <select id="group"><option value="">Group: none</option><option value="journey">Group: Journey</option><option value="screen">Group: Screen</option><option value="platform">Group: Platform</option><option value="severity">Group: Severity</option><option value="theme">Group: Theme</option><option value="status">Group: Status</option></select>
+    <select id="sort"><option value="sev">Sort: Severity</option><option value="id">Sort: ID</option><option value="date">Sort: Newest</option><option value="status">Sort: Status</option><option value="owner">Sort: Owner</option></select>
     <span id="count" class="count"></span>
   </section>
-  <section id="list" class="list"><div class="loading">Loading gaps…</div></section>
+  <section id="list" class="list"><div class="loading">Loading issues…</div></section>
 </main>
 <footer class="wrap foot">Data: Google Sheet tab “Gaps”. Generated client-side; no data is stored by this page.</footer>
 <script src="app.js"></script>

@@ -1,4 +1,4 @@
-# Paytm — Figma vs Live Design Gap Report
+# Paytm PG — UAT Issue Report
 
 Static, no-build report site (vanilla HTML/CSS/JS). Reads gap rows live from Google Sheet
 `1taeplqlRJGmUUCkMzvc2wzhCvcmkzGnvjbLDrYxPFqg` (tab **Gaps**) via the gviz CSV endpoint.
@@ -21,21 +21,42 @@ After ~1 min the site is at `https://<org-or-user>.github.io/<repo>/`.
 Local preview: `python3 -m http.server 8000` → http://localhost:8000/?demo=1
 
 ## 2. Sharing required for live data
-The browser fetches the sheet anonymously, so:
-1. Sheet → **Share → General access → Anyone with the link → Viewer**.
-2. Drive folders → same setting for both:
-   - Figma screenshots: https://drive.google.com/drive/folders/1it0ZqZpM5CPM6kzx2hANCu6VRmzzz0bz
-   - Live screenshots: https://drive.google.com/drive/folders/1lWAg6XX4pEME-rGIXGyYrpepU60kT-i-
-Until then the page shows an explanatory error, and images show placeholders.
+The browser fetches the sheet anonymously, so the Sheet and the media files must be
+**Anyone with the link → Viewer** (media lives in PG UAT › *Slack Media*:
+https://drive.google.com/drive/folders/1UB5ISj21TGFO1IJqk8C3tTbI7Y__Rg1a).
+Until then the page shows an explanatory error and images fall back to link tiles.
 
-## 3. Adding a gap
-1. Upload the Figma export to the Figma folder and the device screenshot to the Live folder
-   (suggested names: `PG-012_figma.png`, `PG-012_live.png`).
-2. For each file: right-click → **Share → Copy link** (format `https://drive.google.com/file/d/<id>/view`).
-3. Add a row in the **Gaps** tab, columns in this order:
-   `ID | Screen / Page | Component | Theme (Light/Dark) | Figma Expected | Live Actual | Severity (High/Medium/Low) | Owner | Status (Open/In Progress/Fixed/Won't Fix) | Figma Frame Link | Figma Screenshot (Drive link) | Live Screenshot (Drive link) | Notes`
-4. Reload the page (Sheets' gviz endpoint can cache for a minute or two).
-Drive links in `/file/d/<id>/view`, `open?id=<id>` or `uc?id=<id>` form are auto-converted to thumbnails.
+## 3. Sheet schema (tab "Gaps")
+Columns are matched **by header name**, so order can change and extra columns are ignored:
+
+| Col | Header | Values |
+|---|---|---|
+| A | ID | e.g. PG-012 |
+| B | Date Reported | yyyy-mm-dd |
+| C | Reported By | |
+| D | Journey | |
+| E | Screen | |
+| F | Issue | |
+| G | Platform | Android / iOS / Both (dropdown) |
+| H | Suggested Improvement | |
+| I | Severity | Critical / High / Medium / Low (dropdown) |
+| J | Theme | Light / Dark / Both (dropdown) |
+| K | Media Status | Attached / Not required (dropdown) |
+| L | Media Links | one or more Drive links, one per line |
+| M | Status | Open / In Progress / Fixed / Won't Fix (dropdown) |
+| N | Owner | |
+| O | Slack Link | permalink to the #uat message |
+| P | Notes | |
+
+Slack #uat post → row mapping: Journey→D, Screen→E, Issue→F, "Android or apple"→G, Suggested improvement→H,
+Severity→I, dark/light/both→J, Screenshot/Video→K. Upload Slack attachments to *Slack Media*, then paste
+their Drive links (`/file/d/<id>/view`) into L.
+
+**Media rendering:** each link is shown as a Drive thumbnail. A link is treated as a **video** (play tile that
+opens Drive) if its line contains the word `video` or ends in `.mp4/.mov/.m4v/.webm` — e.g. write
+`video: https://drive.google.com/file/d/<id>/view`. If a thumbnail fails it becomes a link tile.
+When Media Status is *Not required* no media placeholder is shown.
+The two rows marked EXAMPLE in the sheet are samples — delete them once real data is added.
 
 ## 4. Confidentiality
 "Anyone with the link" plus a public GitHub Pages site means **anyone who finds the URL can read the
