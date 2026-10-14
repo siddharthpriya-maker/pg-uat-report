@@ -4,7 +4,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Paytm PG — UAT Issue Report</title>
 <link rel="stylesheet" href="styles.css">
-<script>(function(){var p=new URLSearchParams(location.search).get('theme');var s=null;try{s=localStorage.getItem('pgTheme')}catch(e){}var t=p||s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 </head>
 <body>
 <header class="top">
@@ -12,13 +11,10 @@
     <div><h1>UAT Issue Report</h1><p class="sub">Paytm PG · Android &amp; iOS · Light &amp; Dark mode UAT</p></div>
     <div class="top-actions">
       <a id="sheetLink" class="btn" target="_blank" rel="noopener">Comment / edit in sheet ↗</a>
-      <button id="themeBtn" class="btn" aria-label="Toggle colour theme">🌓 Theme</button>
     </div>
   </div>
 </header>
 <main class="wrap">
-  <div id="demoBanner" class="banner demo" hidden>Example data — this is sample content for layout preview only (<code>?demo=1</code>).</div>
-  <div id="errorBox" class="banner error" hidden></div>
   <section id="summary" class="summary" aria-label="Summary"></section>
   <section class="controls" aria-label="Filters">
     <input id="q" type="search" placeholder="Search issue, screen, owner, notes…">

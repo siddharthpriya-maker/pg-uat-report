@@ -72,18 +72,8 @@ function toGaps(rows){
   });
 }
 
-const H=['ID','Date Reported','Reported By','Journey','Screen','Issue','Platform','Suggested Improvement','Severity','Theme','Media Status','Media Links','Status','Owner','Slack Link','Notes'];
-const DEMO = [H,
- ['EX-001','2026-10-10','Example user','Checkout','Payment Options','Pay button label truncated on 360px devices','Android','Allow label to wrap; reduce to 14sp','High','Dark','Attached','https://drive.google.com/file/d/EXAMPLE_IMG_1/view\nvideo: https://drive.google.com/file/d/EXAMPLE_VID_1/view','Open','Ananya','https://slack.com/archives/EXAMPLE','Example data'],
- ['EX-002','2026-10-10','Example user','Checkout','Saved Cards','Card tile shadow missing vs Figma','iOS','Use elevation-2 token','Low','Light','Attached','https://drive.google.com/file/d/EXAMPLE_IMG_2/view\nhttps://drive.google.com/file/d/EXAMPLE_IMG_3/view\nhttps://drive.google.com/file/d/EXAMPLE_IMG_4/view','Fixed','Rahul','https://slack.com/archives/EXAMPLE','Example data'],
- ['EX-003','2026-10-11','Example user','UPI','UPI PIN Entry','Keypad freezes after wrong PIN','Both','Reset keypad state on error','Critical','Both','Attached','screen-recording.mov https://drive.google.com/file/d/EXAMPLE_VID_2/view','In Progress','Meera','https://slack.com/archives/EXAMPLE','Example data'],
- ['EX-004','2026-10-11','Example user','UPI','Payment Success','Amount text invisible in dark mode','Android','Map amount colour to text-primary token','High','Dark','Attached','https://drive.google.com/file/d/EXAMPLE_IMG_5/view','Open','Rahul','','Example data'],
- ['EX-005','2026-10-12','Example user','Net Banking','Bank Search','Placeholder copy differs from spec','iOS','Use "Search for your bank"','Medium','Light','Not required','','Won\'t Fix','Meera','https://slack.com/archives/EXAMPLE','Example data']
-];
+let ALL=[];
 
-let ALL=[], isDemo=new URLSearchParams(location.search).get('demo')==='1';
-
-$('#themeBtn').onclick=()=>{ const t=document.documentElement.dataset.theme==='dark'?'light':'dark'; document.documentElement.dataset.theme=t; try{localStorage.setItem('pgTheme',t)}catch(e){} };
 $('#sheetLink').href=SHEET_URL;
 
 function summary(list){
@@ -131,7 +121,7 @@ function render(){
   l.sort((a,b)=>cmp(a,b)||a.id.localeCompare(b.id,undefined,{numeric:true}));
   summary(l);
   $('#count').textContent=`${l.length} of ${ALL.length} issues`;
-  if(!l.length){ $('#list').innerHTML='<div class="empty">No issues match the current filters.</div>'; return; }
+  if(!l.length){ $('#list').innerHTML=`<div class="empty">${ALL.length?'No issues match the current filters.':'No issues to show.'}</div>`; return; }
   if(!grp){ $('#list').innerHTML=l.map(card).join(''); return; }
   const groups=new Map(); l.forEach(g=>{ const k=g[grp]||'(none)'; if(!groups.has(k)) groups.set(k,[]); groups.get(k).push(g); });
   $('#list').innerHTML=[...groups].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>`<h3 class="grp">${esc(k)} <span>${v.length}</span></h3>${v.map(card).join('')}`).join('');
@@ -147,26 +137,14 @@ function init(gaps){
   render();
 }
 
-function showError(detail){
-  const e=$('#errorBox'); e.hidden=false;
-  e.innerHTML=`<h3>Couldn’t load UAT data from the Google Sheet</h3>
-  This page reads the sheet directly from your browser, so it only works when:
-  <ol><li>The Google Sheet is shared as <b>“Anyone with the link – Viewer”</b> and has a tab named <b>${esc(SHEET_TAB)}</b> with a header row.</li>
-  <li>Media files in Drive are shared as <b>“Anyone with the link – Viewer”</b> (otherwise images fall back to link tiles).</li></ol>
-  <p>Preview the layout with <a href="?demo=1">example data (?demo=1)</a>. <small>Details: ${esc(detail)}</small></p>`;
-  $('#list').innerHTML=''; $('#summary').innerHTML='';
-}
-
 async function load(){
-  if(isDemo){ $('#demoBanner').hidden=false; return init(toGaps(DEMO)); }
   try{
     const r=await fetch(CSV_URL,{cache:'no-store'});
     if(!r.ok) throw new Error(`HTTP ${r.status}`);
     const txt=await r.text();
     if(/^\s*<(!doctype|html)/i.test(txt)) throw new Error('Received a Google sign-in page instead of CSV (sheet is private)');
     const gaps=toGaps(parseCSV(txt));
-    if(!gaps.length) throw new Error('Sheet loaded but contains no issue rows');
     init(gaps);
-  }catch(err){ showError(err.message||String(err)); }
+  }catch(err){ console.error('Failed to load gap data:', err); init([]); }
 }
 load();

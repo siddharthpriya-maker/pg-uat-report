@@ -4,8 +4,8 @@ Static, no-build report site (vanilla HTML/CSS/JS). Reads gap rows live from Goo
 `1taeplqlRJGmUUCkMzvc2wzhCvcmkzGnvjbLDrYxPFqg` (tab **Gaps**) via the gviz CSV endpoint.
 Config constants (`SHEET_ID`, `SHEET_TAB`) are at the top of `app.js`.
 
-- `index.html` – live data · `index.html?demo=1` – clearly labelled example data
-- `?theme=dark|light` forces a theme (otherwise follows the toggle / `prefers-color-scheme`).
+- `index.html` – live data, single light theme. If the sheet can't be loaded or has no rows, the page
+  shows zero counts and an empty list; load errors are logged to the browser console only.
 
 ## 1. Publish on GitHub Pages
 ```bash
@@ -18,13 +18,13 @@ git push -u origin main
 ```
 Then on GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**.
 After ~1 min the site is at `https://<org-or-user>.github.io/<repo>/`.
-Local preview: `python3 -m http.server 8000` → http://localhost:8000/?demo=1
+Local preview: `python3 -m http.server 8000` → http://localhost:8000/
 
 ## 2. Sharing required for live data
 The browser fetches the sheet anonymously, so the Sheet and the media files must be
 **Anyone with the link → Viewer** (media lives in PG UAT › *Slack Media*:
 https://drive.google.com/drive/folders/1UB5ISj21TGFO1IJqk8C3tTbI7Y__Rg1a).
-Until then the page shows an explanatory error and images fall back to link tiles.
+Until then the page shows an empty list (error in the console) and images fall back to link tiles.
 
 ## 3. Sheet schema (tab "Gaps")
 Columns are matched **by header name**, so order can change and extra columns are ignored:

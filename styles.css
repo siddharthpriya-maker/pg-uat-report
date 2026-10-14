@@ -1,6 +1,5 @@
 :root{--bg:#f5f7fb;--card:#fff;--text:#13203a;--muted:#5d6b85;--line:#e1e6ef;--accent:#00baf2;--navy:#002970;
 --high:#d93025;--med:#e8a100;--low:#1e8e3e;--open:#d93025;--prog:#1a73e8;--fixed:#1e8e3e;--wont:#80868b;--ph:#eef1f6}
-[data-theme=dark]{--bg:#0d1320;--card:#161e2e;--text:#e6ebf5;--muted:#9aa6bd;--line:#26314a;--ph:#1d2739;--navy:#7fd3ff}
 *{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
 .top{background:var(--card);border-bottom:3px solid var(--accent);margin-bottom:20px}
@@ -9,12 +8,6 @@ h1{margin:0;font-size:22px;color:var(--navy)}.sub{margin:2px 0 0;color:var(--mut
 .top-actions{display:flex;gap:8px}
 .btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:7px 12px;border-radius:8px;cursor:pointer;text-decoration:none;font:inherit}
 .btn:hover{border-color:var(--accent)}
-.banner{padding:12px 16px;border-radius:10px;margin-bottom:16px}
-.banner.demo{background:#fff4d6;color:#6b4d00;border:1px dashed #e8a100;font-weight:600}
-[data-theme=dark] .banner.demo{background:#3a2f10;color:#ffd970}
-.banner.error{background:#fdecea;color:#8c1d18;border:1px solid #f5c2bd}
-[data-theme=dark] .banner.error{background:#3b1716;color:#ffb4ab;border-color:#5c2421}
-.banner.error h3{margin:0 0 6px}.banner.error ol{margin:6px 0 0 18px;padding:0}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .stat b{display:block;font-size:24px}.stat span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
@@ -44,7 +37,7 @@ h1{margin:0;font-size:22px;color:var(--navy)}.sub{margin:2px 0 0;color:var(--mut
 .loading,.empty{text-align:center;color:var(--muted);padding:40px}
 .foot{color:var(--muted);font-size:12px;padding:30px 20px}
 @media(max-width:640px){.cmp{grid-template-columns:1fr}.count{margin-left:0}}
-:root{--crit:#8b0000}[data-theme=dark]{--crit:#ff6b6b}
+:root{--crit:#8b0000}
 .card.sev-critical{border-left-color:var(--crit)}.b-critical{background:var(--crit);color:#fff}.stat.crit b{color:var(--crit)}
 .b-plat{background:var(--prog)}.b-both{background:#6b5bd2;color:#fff}
 .sugg{margin:0 0 10px;font-size:13px}
